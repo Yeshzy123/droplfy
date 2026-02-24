@@ -49,6 +49,23 @@ const plans = [
     cta: "Start Business Plan", href: "/auth/register?plan=business", highlight: false, badge: null,
     color: "from-purple-400 to-purple-600",
   },
+  {
+    name: "Lifetime",
+    monthly: 100,
+    yearly: 100,
+    description: "One-time payment, forever access",
+    features: [
+      "2TB Storage", "10TB Bandwidth", "Up to 500MB per file",
+      "No advertisements forever", "Auto WebP conversion",
+      "Custom domain support", "Unlimited team accounts",
+      "Full REST API access", "Advanced analytics",
+      "Malware scanning", "Custom branding", "Priority support",
+      "Lifetime updates", "Early access to new features",
+    ],
+    notIncluded: [],
+    cta: "Get Lifetime Access", href: "/dashboard/billing?plan=lifetime", highlight: true, badge: "BEST VALUE",
+    color: "from-amber-400 to-orange-500",
+  },
 ];
 
 const faqs = [

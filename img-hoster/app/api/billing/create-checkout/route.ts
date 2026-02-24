@@ -14,7 +14,7 @@ export async function POST(req: NextRequest) {
     const userId = (session.user as any).id;
     const { plan, interval } = await req.json();
 
-    if (!plan || !["pro", "business"].includes(plan)) {
+    if (!plan || !["pro", "business", "lifetime"].includes(plan)) {
       return NextResponse.json({ error: "Invalid plan" }, { status: 400 });
     }
 
@@ -44,34 +44,39 @@ export async function POST(req: NextRequest) {
       });
     }
 
+    const isLifetime = plan === "lifetime";
     const recurringInterval = interval === "yearly" ? "year" : "month";
-    const planAmount = plan === "pro"
+    const planAmount = isLifetime 
+      ? 10000 
+      : plan === "pro"
       ? (recurringInterval === "year" ? 9000 : 900)
       : (recurringInterval === "year" ? 29000 : 2900);
 
     const checkoutSession = await stripe.checkout.sessions.create({
       customer: customerId,
-      mode: "subscription",
+      mode: isLifetime ? "payment" : "subscription",
       payment_method_types: ["card"],
       line_items: [
         {
           price_data: {
             currency: "usd",
             product_data: {
-              name: `ImgHoster ${plan.charAt(0).toUpperCase() + plan.slice(1)} (${recurringInterval})`,
+              name: `ImgHoster ${plan.charAt(0).toUpperCase() + plan.slice(1)}${isLifetime ? " (Lifetime Access)" : ` (${recurringInterval})`}`,
             },
             unit_amount: planAmount,
-            recurring: { interval: recurringInterval },
+            ...(isLifetime ? {} : { recurring: { interval: recurringInterval } }),
           },
           quantity: 1,
         },
       ],
       success_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard/billing?success=true`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/pricing?canceled=true`,
-      subscription_data: {
-        metadata: { userId, plan, interval: recurringInterval },
-      },
-      metadata: { userId, plan, interval: recurringInterval },
+      ...(isLifetime ? {} : {
+        subscription_data: {
+          metadata: { userId, plan, interval: recurringInterval },
+        },
+      }),
+      metadata: { userId, plan, ...(isLifetime ? { type: "lifetime" } : { interval: recurringInterval }) },
     });
 
     return NextResponse.json({ url: checkoutSession.url });

@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
     const filepath = path.join(uploadDir, filename);
     fs.writeFileSync(filepath, buffer);
 
-    const url = `/uploads/${filename}`;
+    const url = `/image/${filename}`;
 
     const image = await prisma.image.create({
       data: {
@@ -87,13 +87,14 @@ export async function POST(req: NextRequest) {
       data: { storageUsed: { increment: file.size } },
     });
 
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://www.imager.pics";
     return NextResponse.json({
       id: image.id,
-      url: `${process.env.NEXT_PUBLIC_APP_URL}${url}`,
-      directUrl: `${process.env.NEXT_PUBLIC_APP_URL}${url}`,
-      htmlEmbed: `<img src="${process.env.NEXT_PUBLIC_APP_URL}${url}" alt="${file.name}" />`,
-      markdownEmbed: `![${file.name}](${process.env.NEXT_PUBLIC_APP_URL}${url})`,
-      bbcodeEmbed: `[img]${process.env.NEXT_PUBLIC_APP_URL}${url}[/img]`,
+      url: `${baseUrl}${url}`,
+      directUrl: `${baseUrl}${url}`,
+      htmlEmbed: `<img src="${baseUrl}${url}" alt="${file.name}" />`,
+      markdownEmbed: `![${file.name}](${baseUrl}${url})`,
+      bbcodeEmbed: `[img]${baseUrl}${url}[/img]`,
       filename: image.filename,
       originalName: image.originalName,
       size: image.size,

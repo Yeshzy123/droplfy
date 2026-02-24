@@ -37,6 +37,10 @@ const plans = [
     name: "Business", key: "business", price: 29, color: "bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400",
     features: ["1TB Storage", "5TB Bandwidth", "200MB max file", "Custom domain", "Team accounts", "Dedicated support"],
   },
+  {
+    name: "Lifetime", key: "lifetime", price: 100, color: "bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400",
+    features: ["2TB Storage", "10TB Bandwidth", "500MB max file", "No ads forever", "Unlimited teams", "Priority support", "Lifetime updates"],
+  },
 ];
 
 export default function BillingPage() {
@@ -178,7 +182,11 @@ export default function BillingPage() {
                 </div>
                 <div className="flex items-baseline gap-1">
                   <span className="text-3xl font-bold">${plan.price}</span>
-                  {plan.price > 0 && <span className="text-[var(--muted-foreground)] text-sm">/month</span>}
+                  {plan.key === "lifetime" ? (
+                    <span className="text-[var(--muted-foreground)] text-sm">one-time</span>
+                  ) : plan.price > 0 ? (
+                    <span className="text-[var(--muted-foreground)] text-sm">/month</span>
+                  ) : null}
                 </div>
               </div>
 

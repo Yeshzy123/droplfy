@@ -51,6 +51,27 @@ export const PLANS = {
     ],
     stripePriceId: process.env.STRIPE_BUSINESS_PRICE_ID || "price_business_placeholder",
   },
+  lifetime: {
+    name: "Lifetime",
+    price: 100,
+    storage: 2 * 1024 * 1024 * 1024 * 1024, // 2TB
+    bandwidth: 10 * 1024 * 1024 * 1024 * 1024, // 10TB
+    maxFileSize: 500 * 1024 * 1024, // 500MB
+    features: [
+      "2TB Storage",
+      "10TB Bandwidth",
+      "No Ads Forever",
+      "Custom Domain",
+      "Unlimited Team Accounts",
+      "Full API Access",
+      "Priority Support",
+      "Malware Scanning",
+      "Custom Branding",
+      "Lifetime Updates",
+      "Early Access Features",
+    ],
+    stripePriceId: process.env.STRIPE_LIFETIME_PRICE_ID || "price_lifetime_placeholder",
+  },
 } as const;
 
 export type PlanName = keyof typeof PLANS;
