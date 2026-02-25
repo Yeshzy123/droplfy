@@ -33,7 +33,7 @@ export async function GET(req: NextRequest) {
   const base = process.env.NEXT_PUBLIC_APP_URL;
   return NextResponse.json({
     success: true,
-    data: images.map(img => ({ ...img, url: `${base}${img.url}` })),
+    data: images.map((img: any) => ({ ...img, url: `${base}${img.url}` })),
     pagination: { page, limit, total, pages: Math.ceil(total / limit) },
   });
 }

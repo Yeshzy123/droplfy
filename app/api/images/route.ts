@@ -45,7 +45,7 @@ export async function DELETE(req: NextRequest) {
     where: { id: { in: ids }, userId },
   });
 
-  const totalSize = images.reduce((sum, img) => sum + img.size, 0);
+  const totalSize = images.reduce((sum: number, img: any) => sum + img.size, 0);
 
   await prisma.image.updateMany({
     where: { id: { in: ids }, userId },

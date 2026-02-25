@@ -151,14 +151,14 @@ export default function PricingPage() {
 
                 <div className="mb-6">
                   <div className="flex items-baseline gap-1">
-                    <span className="text-4xl font-bold">${yearly ? plan.yearlyPrice : plan.price}</span>
-                    {plan.price > 0 && (
+                    <span className="text-4xl font-bold">${yearly ? (plan.yearlyPrice || 0) : (plan.price || 0)}</span>
+                    {(plan.price || 0) > 0 && (
                       <span className={`text-sm ${plan.highlight ? "text-green-100" : "text-[var(--muted-foreground)]"}`}>/mo</span>
                     )}
                   </div>
-                  {yearly && plan.price > 0 && (
+                  {yearly && (plan.price || 0) > 0 && (
                     <p className={`text-xs mt-0.5 ${plan.highlight ? "text-green-200" : "text-[var(--muted-foreground)]"}`}>
-                      Billed annually (${plan.yearlyPrice * 12}/yr)
+                      Billed annually (${(plan.yearlyPrice || 0) * 12}/yr)
                     </p>
                   )}
                 </div>
