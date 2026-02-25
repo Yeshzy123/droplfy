@@ -2,12 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "**" },
-      { protocol: "http", hostname: "localhost" },
-    ],
+    unoptimized: true,
   },
-  serverExternalPackages: ["@prisma/client", "bcryptjs"],
+  output: 'export',
+  trailingSlash: true,
+  distDir: 'out',
 };
 
 export default nextConfig;

@@ -11,6 +11,7 @@
   "dependencies": {
     "@auth/prisma-adapter": "^2.11.1",
     "@libsql/client": "^0.17.0",
+    "@netlify/next": "^1.4.9",
     "@prisma/adapter-better-sqlite3": "^7.4.1",
     "@prisma/adapter-libsql": "^7.4.1",
     "@prisma/client": "^7.4.1",
